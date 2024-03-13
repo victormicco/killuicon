@@ -2,10 +2,7 @@ type OmitKeys<T, K extends keyof T> = {
   [P in Exclude<keyof T, K>]: T[P];
 };
 
-type FormStepProps<T> = {
-  handlePreviousStep?: () => void;
-  handleNextStep: (data: Partial<T>) => void;
-  canGoNext: boolean;
+type SearchIconUtilProps<T> = {
   defaultValues?: Partial<T>;
 };
 

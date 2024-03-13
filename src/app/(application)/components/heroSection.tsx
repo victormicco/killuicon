@@ -14,7 +14,7 @@ export const getIconSchema = z.object({
 });
 
 export type GetIconSchema = z.output<typeof getIconSchema>;
-export type GetIconProps = FormStepProps<GetIconSchema>;
+export type GetIconProps = SearchIconUtilProps<GetIconSchema>;
 
 export default function HeroSection({ defaultValues }: GetIconProps) {
   const form = useForm({
