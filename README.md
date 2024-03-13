@@ -18,7 +18,7 @@ Killuicon is a project aimed at providing a collection of icons for various purp
 1. Visit the Killuicon website or launch the Killuicon desktop application.
 2. Browse or search for the desired icon using keywords or categories.
 3. Once you find the icon you need, click on it to view details and download options.
-4. Select the preferred format (PNG, SVG, ICO, etc.) and click the download button to save the icon to your device.
+
 
 ## Installation
 
@@ -54,6 +54,19 @@ The application will be accessible at http://localhost:3000 by default.
 
 Contributions to Killuicon are welcome! If you have new icons to add or improvements to make, please feel free to open an issue or submit a pull request.
 
-## License
+# Used Technologies
+#### Typescript
+#### @fellipeutaka/ui
+#### @t3-oss/env-nextjs
+#### @uidotdev/usehooks
+#### framer-motion
+#### ky
+#### lucide-react
+#### next
+#### next-themes
+#### zod
+#### usehooks-ts
 
-Killuicon is licensed under the [MIT License](LICENSE).
+<hr />
+
+### Killuicon is licensed under the [MIT License](LICENSE).
