@@ -7,7 +7,7 @@ export const getIconService = {
       cache: "no-store",
       timeout: false,
     });
-    const data = await response.json<any>();
+    const data = await response;
     return data;
   },
 };

@@ -6,6 +6,8 @@ import { useState } from "react";
 import { z } from "zod";
 import { Form, useForm } from "@fellipeutaka/ui/form";
 import { getIconService } from "../../../services";
+import { apiIcon } from "../../../lib/ky";
+import { Download } from "lucide-react";
 
 export const getIconSchema = z.object({
   domain: z.string(),
@@ -25,25 +27,31 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
   async function handleSearchIcon() {
     try {
       setLoading(true);
+
       const res = await getIconService.getIcon(domain);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch icon");
+      }
+
       const blob = await res.blob();
-      window.open(res);
 
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
-      link.download = "icon.png"; 
+      link.download = "icon.png";
+      document.body.appendChild(link);
       link.click();
 
- 
+      document.body.removeChild(link);
       window.URL.revokeObjectURL(link.href);
 
       form.setValue("domain", "");
     } catch (err) {
       console.error("Error handling search icon:", err);
-      setLoading(false); 
+    } finally {
+      setLoading(false);
     }
   }
-  function downloadIcon() {}
 
   return (
     <>
@@ -84,6 +92,7 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
                       onClick={handleSearchIcon}
                     >
                       Baixar Ícone
+                      <Download className="h-4 w-4 ml-2 mb-1" />
                     </Button>
                   </form>
                 </Form>
