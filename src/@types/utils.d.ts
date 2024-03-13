@@ -3,9 +3,6 @@ type OmitKeys<T, K extends keyof T> = {
 };
 
 type FormStepProps<T> = {
-  handlePreviousStep?: () => void;
-  handleNextStep: (data: Partial<T>) => void;
-  canGoNext: boolean;
   defaultValues?: Partial<T>;
 };
 
