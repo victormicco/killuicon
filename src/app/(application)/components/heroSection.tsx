@@ -7,7 +7,12 @@ import { z } from "zod";
 import { Form, useForm } from "@fellipeutaka/ui/form";
 import { getIconService } from "../../../services";
 import { apiIcon } from "../../../lib/ky";
-import { Download } from "lucide-react";
+import { Download, Search } from "lucide-react";
+import Cards from "../../../components/card";
+import { useLocalStorage } from "@uidotdev/usehooks";
+
+import Image from "next/image";
+import React from "react";
 
 export const getIconSchema = z.object({
   domain: z.string(),
@@ -16,6 +21,10 @@ export const getIconSchema = z.object({
 export type GetIconSchema = z.output<typeof getIconSchema>;
 export type GetIconProps = SearchIconUtilProps<GetIconSchema>;
 
+interface IconApiResponse {
+  url: string; // Assuming the API response contains a 'url' field
+}
+
 export default function HeroSection({ defaultValues }: GetIconProps) {
   const form = useForm({
     schema: getIconSchema,
@@ -23,6 +32,10 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
   });
   const domain = form.watch("domain");
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<any>(null);
+
+  const [imageURL, setImageURL] = useState(""); // State to store the image URL
+  const ref = React.useRef(null);
 
   async function handleSearchIcon() {
     try {
@@ -34,17 +47,10 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
         throw new Error("Failed to fetch icon");
       }
 
-      const blob = await res.blob();
+      const data = await res.clone(); // Clone the response to consume it again
+      const iconUrl = data.url; // Assuming the API response contains the URL of the icon
 
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "icon.png";
-      document.body.appendChild(link);
-      link.click();
-
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(link.href);
-
+      setFormData(iconUrl); // Set the icon URL in state
       form.setValue("domain", "");
     } catch (err) {
       console.error("Error handling search icon:", err);
@@ -60,11 +66,16 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Ache qualquer ícone com o{" "}
-                  <span className="bg-gradient-to-r from-purple-500 via-purple-900 to-purple-500 bg-clip-text  font-extrabold tracking-tighter text-transparent">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none mb-10">
+                  Ache qualquer{" "}
+                  <span className="underline decoration-violet-500 decoration-wavy decoration-from-font underline-offset-4">
+                    ícone
+                  </span>{" "}
+                  com o{" "}
+                  <span className="bg-gradient-to-r from-cyan-400 via-blue-900 to-purple-600 bg-clip-text  font-extrabold tracking-tighter text-transparent">
                     Killuicon
                   </span>
+                  ⚡
                 </h1>
                 <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
                   Apenas coloque o domínio do site que deseja obter o ícone e
@@ -91,12 +102,23 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
                       variant="outline"
                       onClick={handleSearchIcon}
                     >
-                      Baixar Ícone
-                      <Download className="h-4 w-4 ml-2 mb-1" />
+                      Buscar Ícone
+                      <Search className="h-4 w-4 ml-3" />
                     </Button>
                   </form>
                 </Form>
               </div>
+              {formData ? (
+                <Cards iconUrl={formData} />
+              ) : (
+                <Image
+                  alt="Killuicon"
+                  src="https://i.pinimg.com/originals/9f/99/59/9f9959c3e16d740c62fb1fe250ed67c3.gif"
+                  width={500}
+                  height={500}
+                  className="rounded-xl pt-7 w-auto h-auto max-w-[500px] max-h-[500px]"
+                />
+              )}
             </div>
           </div>
         </section>
