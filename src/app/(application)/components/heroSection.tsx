@@ -11,6 +11,7 @@ import { Download, Search } from "lucide-react";
 import Cards from "../../../components/card";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { motion } from "framer-motion";
+import { Toaster, toast } from "@fellipeutaka/ui/toast";
 
 import Image from "next/image";
 import React from "react";
@@ -45,6 +46,9 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
       const res = await getIconService.getIcon(domain);
 
       if (!res.ok) {
+        throw new Error("Failed to fetch icon");
+      }
+      if (domain === "") {
         throw new Error("Failed to fetch icon");
       }
 
@@ -104,10 +108,17 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
                           />
                         )}
                       />
+                      <Toaster />
                       <Button
                         type="button"
                         variant="outline"
-                        onClick={handleSearchIcon}
+                        onClick={
+                          domain
+                            ? handleSearchIcon
+                            : () => {
+                                return toast.error("Digite um domínio válido!");
+                              }
+                        }
                       >
                         Buscar Ícone
                         <Search className="h-4 w-4 ml-3" />
