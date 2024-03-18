@@ -2,7 +2,7 @@
 import { TextFieldInput } from "@fellipeutaka/ui/textfield";
 import { Button } from "@fellipeutaka/ui/button";
 import { Background } from "../../../components/background";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Form, useForm } from "@fellipeutaka/ui/form";
 import { getIconService } from "../../../services";
@@ -37,18 +37,39 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
   const [formData, setFormData] = useState<any>(null);
 
   const [imageURL, setImageURL] = useState(""); // State to store the image URL
-  const ref = React.useRef(null);
+  const ref = React.useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleSearchIcon();
+      }
+    };
+
+    if (ref.current) {
+      ref.current.addEventListener("keypress", handleKeyPress);
+    }
+
+    return () => {
+      if (ref.current) {
+        ref.current.removeEventListener("keypress", handleKeyPress);
+      }
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function handleSearchIcon() {
     try {
       setLoading(true);
 
-      const res = await getIconService.getIcon(domain);
+      const iconDomain = form.getValues("domain"); // Accessing form value directly
+
+      const res = await getIconService.getIcon(iconDomain);
 
       if (!res.ok) {
         throw new Error("Failed to fetch icon");
       }
-      if (domain === "") {
+      if (iconDomain === "") {
         throw new Error("Failed to fetch icon");
       }
 
@@ -105,6 +126,7 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
                             placeholder="Ex: youtube.com.br"
                             type="text"
                             {...field}
+                            ref={ref}
                           />
                         )}
                       />
