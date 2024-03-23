@@ -1,3 +1,5 @@
+"use client";
+
 import { Label } from "@fellipeutaka/ui/label";
 import { TextFieldInput } from "@fellipeutaka/ui/textfield";
 import { Select } from "@fellipeutaka/ui/select";
@@ -16,63 +18,37 @@ export default function UploadSection() {
               Convert your images to SVG, PNG, or JPG.
             </p>
           </div>
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col space-y-2 gap-y-8">
             <div className="flex flex-col space-y-1">
               <Label htmlFor="images">Upload Image</Label>
               <input accept="image/*" id="images" multiple type="file" />
             </div>
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col space-y-1 gap-y-2">
               <Label htmlFor="format">Select Format</Label>
               <Select>
-                <option value="svg">SVG</option>
-                <option value="png">PNG</option>
-                <option value="jpg">JPG</option>
+                <Select.Trigger
+                  className="w-56"
+                  placeholder="Select an extension"
+                />
+                <Select.Content>
+                  <Select.Group>
+                    <Select.Item value="svg">SVG</Select.Item>
+                    <Select.Item value="png">PNG</Select.Item>
+                    <Select.Item value="jpg">JPG</Select.Item>
+                  </Select.Group>
+                </Select.Content>
               </Select>
             </div>
           </div>
-          <div className="grid w-full grid-cols-2 items-start justify-start gap-4">
-            <div className="flex flex-col space-y-1">
-              <Label htmlFor="width">Width (px)</Label>
-              <TextFieldInput
-                id="width"
-                placeholder="Enter width"
-                type="number"
-              />
-            </div>
-            <div className="flex flex-col space-y-1">
-              <Label htmlFor="height">Height (px)</Label>
-              <TextFieldInput
-                id="height"
-                placeholder="Enter height"
-                type="number"
-              />
-            </div>
-          </div>
-          <div className="flex w-full items-center space-x-2">
+
+          <div className="flex w-full items-center space-x-2 p-6">
             <Button>Convert</Button>
             <Button variant="outline">Clear</Button>
           </div>
         </section>
-        <section className="w-full max-w-3xl border rounded-lg p-4">
+        <section className="w-full max-w-3xl border rounded-lg p-4 flex flex-col gap-y-5">
           <h2 className="text-lg font-medium">Converted Images</h2>
-          <div className="grid w-full grid-cols-2 items-start justify-start gap-4">
-            <div className="flex flex-col space-y-1">
-              <Label htmlFor="width1">Width (px)</Label>
-              <TextFieldInput
-                id="width1"
-                placeholder="Enter width"
-                type="number"
-              />
-            </div>
-            <div className="flex flex-col space-y-1">
-              <Label htmlFor="height1">Height (px)</Label>
-              <TextFieldInput
-                id="height1"
-                placeholder="Enter height"
-                type="number"
-              />
-            </div>
-          </div>
+
           <div className="grid w-full grid-cols-3 items-start justify-start gap-4">
             <div className="flex flex-col space-y-1">
               <Image
