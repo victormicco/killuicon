@@ -406,6 +406,7 @@ export default function Dropzone() {
     );
   }
 
+  
   return (
     <ReactDropzone
       onDrop={handleUpload}
