@@ -1,10 +1,5 @@
 "use client";
 
-import { Label } from "@fellipeutaka/ui/label";
-import { TextFieldInput } from "@fellipeutaka/ui/textfield";
-import { Select } from "@fellipeutaka/ui/select";
-import { Button } from "@fellipeutaka/ui/button";
-import Image from "next/image";
 import Dropzone from "../../../../components/dropzone";
 
 export default function UploadSection() {
