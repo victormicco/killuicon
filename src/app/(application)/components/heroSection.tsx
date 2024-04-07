@@ -1,17 +1,15 @@
 "use client";
-import { TextFieldInput } from "@fellipeutaka/ui/textfield";
 import { Button } from "@fellipeutaka/ui/button";
-import { Background } from "../../../components/background";
+import { Form, useForm } from "@fellipeutaka/ui/form";
+import { TextFieldInput } from "@fellipeutaka/ui/textfield";
+import { Toaster, toast } from "@fellipeutaka/ui/toast";
+import { motion } from "framer-motion";
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { Form, useForm } from "@fellipeutaka/ui/form";
-import { getIconService } from "../../../services";
-import { apiIcon } from "../../../lib/ky";
-import { Download, Search } from "lucide-react";
+import { Background } from "../../../components/background";
 import Cards from "../../../components/card";
-import { useLocalStorage } from "@uidotdev/usehooks";
-import { motion } from "framer-motion";
-import { Toaster, toast } from "@fellipeutaka/ui/toast";
+import { getIconService } from "../../../services";
 
 import Image from "next/image";
 import React from "react";
@@ -122,7 +120,7 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
                         name="domain"
                         render={({ field }) => (
                           <TextFieldInput
-                            className="max-w-lg flex-1"
+                            className="max-w-lg flex-1 cursor-text bg-inherit"
                             placeholder="Ex: youtube.com.br"
                             type="text"
                             {...field}
