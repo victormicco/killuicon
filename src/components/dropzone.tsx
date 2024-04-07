@@ -2,32 +2,31 @@
 
 // imports
 
+import { toast } from "@fellipeutaka/ui/toast";
+import { useEffect, useRef, useState } from "react";
 import ReactDropzone from "react-dropzone";
 import bytesToSize from "../../utils/bytes-to-size";
-import fileToIcon from "../../utils/file-to-icon";
-import { useState, useEffect, useRef } from "react";
-import { Toaster, toast } from "@fellipeutaka/ui/toast";
 import compressFileName from "../../utils/compress-file-name";
-import Skeleton from "@fellipeutaka/ui/skeleton";
 import convertFile from "../../utils/convert";
+import fileToIcon from "../../utils/file-to-icon";
 
 import { Badge } from "@fellipeutaka/ui/badge";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select } from "@fellipeutaka/ui/select";
 import { Button } from "@fellipeutaka/ui/button";
-import loadFfmpeg from "../../utils/load-ffmpeg";
-import type { Action } from "../@types/types.d.ts";
+import { Select } from "@fellipeutaka/ui/select";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import {
   CircleCheck,
   CircleOff,
-  DoorClosed,
   Download,
   Link,
   Shell,
   Upload,
+  X,
 } from "lucide-react";
+import loadFfmpeg from "../../utils/load-ffmpeg";
+import type { Action } from "../@types/types.d.ts";
 
 const extensions = {
   image: [
@@ -233,7 +232,7 @@ export default function Dropzone() {
         {actions.map((action: Action, i: any) => (
           <div
             key={i}
-            className="w-full py-4 space-y-2 lg:py-0 relative cursor-pointer rounded-xl border h-fit lg:h-20 px-4 lg:px-10 flex flex-wrap lg:flex-nowrap items-center justify-between"
+            className="w-full py-4 lg:py-0 relative cursor-pointer rounded-xl border h-fit lg:h-20 px-4 lg:px-10 flex flex-wrap lg:flex-nowrap items-center justify-between"
           >
             {!is_loaded && (
               //   <Skeleton className="h-full w-full -ml-10 cursor-progress absolute rounded-xl"/>
@@ -243,7 +242,7 @@ export default function Dropzone() {
               <span className="text-2xl text-orange-600">
                 {fileToIcon(action.file_type)}
               </span>
-              <div className="flex items-center gap-1 w-96">
+              <div className="flex items-center gap-1 flex-1">
                 <span className="text-md font-medium overflow-x-hidden">
                   {compressFileName(action.file_name)}
                 </span>
@@ -271,7 +270,7 @@ export default function Dropzone() {
                 </span>
               </Badge>
             ) : (
-              <div className="text-gray-400 text-md flex items-center gap-4">
+              <div className="text-gray-400 flex items-center gap-4">
                 <span>Convert to</span>
                 <Select
                   onValueChange={(value: any) => {
@@ -358,9 +357,9 @@ export default function Dropzone() {
             ) : (
               <span
                 onClick={() => deleteAction(action)}
-                className="cursor-pointer hover:bg-gray-50 rounded-full h-10 w-10 flex items-center justify-center text-2xl text-gray-400"
+                className="cursor-pointer hover:bg-gray-50 rounded-full size-8 flex items-center justify-center text-2xl text-gray-400"
               >
-                <DoorClosed />
+                <X />
               </span>
             )}
           </div>
