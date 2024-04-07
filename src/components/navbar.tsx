@@ -1,5 +1,7 @@
+"use client";
 import Link from "next/link";
 import { ModeToggle } from "./setThemeToggle";
+import { toast } from "@fellipeutaka/ui/toast";
 
 export default function Navbar() {
   return (
@@ -12,14 +14,17 @@ export default function Navbar() {
         <Link className="font-medium text-sm leading-none" href="/convert">
           Convert
         </Link>
-        <Link className="font-medium text-sm leading-none" href="#">
+        <span
+          className="font-medium text-sm leading-none"
+          onClick={() => {
+            toast.info("It's free! 🎉");
+          }}
+        >
           Price
-        </Link>
+        </span>
       </nav>
-      <Link className="flex mr-6" href="#">
-        {" "}
-        <ModeToggle />
-      </Link>
+
+      <ModeToggle />
     </nav>
   );
 }
