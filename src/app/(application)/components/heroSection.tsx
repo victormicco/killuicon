@@ -58,28 +58,40 @@ export default function HeroSection({ defaultValues }: GetIconProps) {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  function isURL(valor: any) {
+    const urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+\/?)?$/;
+    return urlPattern.test(valor);
+  }
+
   async function handleSearchIcon() {
     try {
       setLoading(true);
 
-      const iconDomain = form.getValues("domain"); // Accessing form value directly
+      const iconDomain = form.getValues("domain");
+
+      if (!isURL(iconDomain)) {
+        toast.error("Digite um domínio válido!");
+      }
 
       const res = await getIconService.getIcon(iconDomain);
 
       if (!res.ok) {
+        toast.error("Failed to fetch icon");
         throw new Error("Failed to fetch icon");
       }
       if (iconDomain === "") {
+        toast.error("Digite um domínio válido!");
         throw new Error("Failed to fetch icon");
       }
 
-      const data = await res.clone(); // Clone the response to consume it again
-      const iconUrl = data.url; // Assuming the API response contains the URL of the icon
+      const data = await res.clone();
+      const iconUrl = data.url;
 
-      setFormData(iconUrl); // Set the icon URL in state
+      setFormData(iconUrl);
       form.setValue("domain", "");
     } catch (err) {
       console.error("Error handling search icon:", err);
+      toast.error("Failed to fetch icon");
     } finally {
       setLoading(false);
     }
