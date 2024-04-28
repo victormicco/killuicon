@@ -11,6 +11,7 @@ import convertFile from "../../utils/convert";
 import fileToIcon from "../../utils/file-to-icon";
 
 import { Badge } from "@fellipeutaka/ui/badge";
+import { Skeleton } from "@fellipeutaka/ui/skeleton";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@fellipeutaka/ui/button";
@@ -18,10 +19,10 @@ import { Select } from "@fellipeutaka/ui/select";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import {
   CircleCheck,
-  CircleOff,
   Download,
+  FileWarning,
   Link,
-  Shell,
+  Loader,
   Upload,
   X,
 } from "lucide-react";
@@ -235,8 +236,10 @@ export default function Dropzone() {
             className="w-full py-4 lg:py-0 relative cursor-pointer rounded-xl border h-fit lg:h-20 px-4 lg:px-10 flex flex-wrap lg:flex-nowrap items-center justify-between"
           >
             {!is_loaded && (
-              //   <Skeleton className="h-full w-full -ml-10 cursor-progress absolute rounded-xl"/>
-              <p>loading</p>
+              <div>
+                <Skeleton className="h-full w-full -ml-10 cursor-progress absolute rounded-xl" />
+                <p>loading</p>
+              </div>
             )}
             <div className="flex gap-4 items-center">
               <span className="text-2xl text-orange-600">
@@ -254,24 +257,24 @@ export default function Dropzone() {
 
             {action.is_error ? (
               <Badge variant="destructive" className="flex gap-2">
-                <span>Error Converting File</span>
-                <CircleOff />
+                <span>Erro ao converter arquivo</span>
+                <FileWarning />
               </Badge>
             ) : action.is_converted ? (
               <Badge variant="default" className="flex gap-2 bg-green-500">
-                <span>Done</span>
+                <span>Pronto</span>
                 <CircleCheck />
               </Badge>
             ) : action.is_converting ? (
               <Badge variant="default" className="flex gap-2">
-                <span>Converting</span>
+                <span>Convertendo</span>
                 <span className="animate-spin">
-                  <Shell />
+                  <Loader />
                 </span>
               </Badge>
             ) : (
               <div className="text-gray-400 flex items-center gap-4">
-                <span>Convert to</span>
+                <span>Converter para</span>
                 <Select
                   onValueChange={(value: any) => {
                     if (extensions.audio.includes(value)) {
@@ -381,7 +384,7 @@ export default function Dropzone() {
                 variant="outline"
                 className="rounded-xl"
               >
-                Convert Another File(s)
+                Converta outro arquivo(s)
               </Button>
             </div>
           ) : (
@@ -393,10 +396,10 @@ export default function Dropzone() {
             >
               {is_converting ? (
                 <span className="animate-spin text-lg">
-                  <Shell />
+                  <Loader />
                 </span>
               ) : (
-                <span>Convert Now</span>
+                <span>Converta Agora</span>
               )}
             </Button>
           )}
@@ -433,7 +436,7 @@ export default function Dropzone() {
                   <Link />
                 </div>
                 <h3 className="text-center font-medium text-2xl">
-                  Yes, right there
+                  Isso, solta aí!
                 </h3>
               </>
             ) : (
@@ -442,7 +445,7 @@ export default function Dropzone() {
                   <Upload />
                 </div>
                 <h3 className="text-center font-medium text-2xl">
-                  Click, or drop your files here
+                  Clique, ou arraste um arquivo aqui
                 </h3>
               </>
             )}
