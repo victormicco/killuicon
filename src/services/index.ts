@@ -2,7 +2,7 @@ import { type Options } from "ky";
 import { apiIcon } from "../lib/ky";
 
 export const getIconService = {
-  async getIcon(domain: string) {
+  async getIcon(domain: string | undefined) {
     const response = await apiIcon.get(`icon/${domain}`, {
       cache: "no-store",
       timeout: false,
